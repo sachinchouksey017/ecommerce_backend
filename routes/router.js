@@ -43,7 +43,18 @@ router.post('/register', [
     router.post('/category', [check('categoryName').notEmpty().withMessage('categoryName is required field')]
         , authenticate, categoryController.add)
 
+router.get('/category', categoryController.getAllCategory)
+router.delete('/category/:categoryId', authenticate, categoryController.deleteCategory)
+router.post('/categoryUpdate', [check('categoryName').notEmpty().withMessage('categoryName is required field')
+    , check('categoryId').notEmpty().withMessage('categoryId is required field')
+]
+    , authenticate, categoryController.updateCategory)
 
+
+router.post('/category', [check('categoryName').notEmpty().withMessage('categoryName is required field')]
+    , authenticate, categoryController.add)
+router.post('/category', [check('categoryName').notEmpty().withMessage('categoryName is required field')]
+    , authenticate, categoryController.add)
 
 
 
