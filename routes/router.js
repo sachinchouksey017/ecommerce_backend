@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const router = express.Router()
 let userController = require('../controllers/user_controller')
 let categoryController = require('../controllers/category_controller')
+let productController = require('../controllers/product_controller')
 let authenticate = require('../middleware/authentication')
 // router.get('/get', userController.register),
 router.post('/register', [
@@ -56,10 +57,59 @@ router.post('/category', [check('categoryName').notEmpty().withMessage('category
 router.post('/category', [check('categoryName').notEmpty().withMessage('categoryName is required field')]
     , authenticate, categoryController.add)
 
+// productName: body.productName,
+// categoryName: body.categoryName,
+// price: body.price,
+// img: body.img,
+// quantity: body.quantity,
+// product routes
+router.post('/product', [
+    check('productName').notEmpty().withMessage('productName is required field'),
+    check('price')
+        .notEmpty()
+        .withMessage('price is required field')
+        .isNumeric()
+        .withMessage('price must be in number'),
+    check('quantity')
+        .notEmpty()
+        .withMessage('quantity is required field')
+        .isNumeric()
+        .withMessage('quantity must be in number'),
+    check('categoryId')
+        .notEmpty()
+        .withMessage('categoryId is required field')
+        .matches(/^[0-9a-fA-F]{24}$/)
+        .withMessage('categoryId is not valid')
 
 
 
+], productController.addProduct)
+router.get('/product', productController.get)
+router.get('/search', productController.get)
+router.delete('/product', productController.deleteProduct)
+router.post('/productUpdate',
+    [
+        check('price')
+            .optional()
+            .isNumeric()
+            .withMessage('price must be in number'),
+        check('quantity')
+            .optional()
+            .isNumeric()
+            .withMessage('quantity must be in number'),
+        check('productId')
+            .notEmpty()
+            .withMessage('productId is required field')
+            .matches(/^[0-9a-fA-F]{24}$/)
+            .withMessage('productId is not valid')
 
+    ],
+    productController.updateProduct)
+
+
+// sort routes
+
+router.get('/sortByDate', productController.sortByDate)
 
 
 module.exports = router;
