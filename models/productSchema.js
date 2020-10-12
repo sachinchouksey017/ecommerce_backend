@@ -103,6 +103,7 @@ productModel.prototype.delete = (obj, callback) => {
         }
     })
 }
+
 productModel.prototype.getProduct = (req, callback) => {
     var response = {
         success: false,
@@ -126,6 +127,29 @@ productModel.prototype.getProduct = (req, callback) => {
         }
     }).populate('category')
 }
+productModel.prototype.filterByCategory = (req, callback) => {
+    var response = {
+        success: false,
+        message: "",
+        data: "",
+        err: "",
+        status: 500
+    }
+
+    product.find().populate({ path: 'category', match: { categoryName: req.categoryName } }).exec((err, data) => {
+        if (err) {
+            response.message = "Error while search"
+            response.err = err;
+            response.status = 500
+            callback(response, null);
+        } else {
+            response.message = "product retrived successfully"
+            response.data = data
+            response.status = 200
+            callback(null, response)
+        }
+    })
+}
 productModel.prototype.shortByDate = (req, callback) => {
     var response = {
         success: false,
@@ -135,7 +159,7 @@ productModel.prototype.shortByDate = (req, callback) => {
         status: 500
     }
 
-    product.find().sort().toArray((err, data) => {
+    product.find({}).populate('category').sort({ 'createdAt': -1 }).exec((err, data) => {
         if (err) {
             response.message = "Error while sort"
             response.err = err;
@@ -147,7 +171,7 @@ productModel.prototype.shortByDate = (req, callback) => {
             response.status = 200
             callback(null, response)
         }
-    }).populate('category')
+    })
 }
 productModel.prototype.updateProduct = (req, callback) => {
     var response = {

@@ -104,3 +104,20 @@ module.exports.sortByDate = (req, res) => {
     })
 
 }
+module.exports.filterByCategory = (req, res) => {
+    console.log("param is ", req.params, "      ", req.query);
+
+    const queryParam = req.params;
+    let body = {
+        ...(queryParam.categoryName) && { categoryName: queryParam.categoryName },
+        ...(queryParam.productName) && { productName: queryParam.productName }
+    }
+    productService.filterByCategory(body).then(data => {
+        return res.status(data.status).send(data)
+    }).catch(err => {
+        console.log('error after ', err.status);
+        return res.status(err.status).send(err)
+
+    })
+
+}

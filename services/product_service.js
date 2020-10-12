@@ -62,3 +62,15 @@ module.exports.sortByDateProduct = () => {
         })
     })
 }
+module.exports.filterByCategory = (req) => {
+    return new Promise((resolve, reject) => {
+        productModel.filterByCategory(req, (err, data) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(data)
+            }
+        })
+    })
+}
+

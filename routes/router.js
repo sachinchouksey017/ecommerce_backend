@@ -85,6 +85,7 @@ router.post('/product', [
 
 ], productController.addProduct)
 router.get('/product', productController.get)
+router.get('/product/:categoryName', productController.filterByCategory)
 router.get('/search', productController.get)
 router.delete('/product', productController.deleteProduct)
 router.post('/productUpdate',
