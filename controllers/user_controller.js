@@ -14,9 +14,9 @@ module.exports.register = (req, res) => {
         firstName: body.firstName,
         lastName: body.lastName
     }).then(data => {
-        return res.send(data).status(data.status)
+        return res.status(data.status).send(data)
     }).catch(err => {
-        return res.send(err).status(err.status)
+        return res.status(err.status).send(err)
 
     })
 
@@ -30,14 +30,12 @@ module.exports.login = (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     userService.login({
-        email: 'sachinchouksey017@gmail.com',
-        password: '123456',
-        firstName: 'sachin',
-        lastName: 'chouksey'
+        email: req.body.email,
+        password: req.body.password,
     }).then(data => {
-        return res.send(data).status(data.status)
+        return res.status(data.status).send(data)
     }).catch(err => {
-        return res.send(err).status(err.status)
+        return res.status(err.status).send(err)
 
     })
 
@@ -54,9 +52,9 @@ module.exports.forget = (req, res) => {
         email: body.email,
         url: body.url ? body.url : 'http://localhost:3000'
     }).then(data => {
-        return res.send(data).status(data.status)
+        return res.status(data.status).send(data)
     }).catch(err => {
-        return res.send(err).status(err.status)
+        return res.status(err.status).send(err)
 
     })
 
@@ -73,9 +71,9 @@ module.exports.reset = (req, res) => {
         password: body.password,
         data: body.data
     }).then(data => {
-        return res.send(data).status(data.status)
+        return res.status(data.status).send(data)
     }).catch(err => {
-        return res.send(err).status(err.status)
+        return res.status(err.status).send(err)
 
     })
 
