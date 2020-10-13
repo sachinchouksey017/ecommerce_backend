@@ -136,7 +136,7 @@ productModel.prototype.filterByCategory = (req, callback) => {
         status: 500
     }
 
-    product.find().populate({ path: 'category', match: { categoryName: req.categoryName } }).exec((err, data) => {
+    product.find({ category: req.categoryId }).populate('category').exec((err, data) => {
         if (err) {
             response.message = "Error while search"
             response.err = err;

@@ -154,7 +154,8 @@ userModel.prototype.forgotPassword = (req, callback) => {
     var response = {
         success: false,
         message: '',
-        data: ''
+        data: '',
+        status: 500
     }
     user.find({ email: req.email }, (err, data) => {
         if (err) {
@@ -166,6 +167,7 @@ userModel.prototype.forgotPassword = (req, callback) => {
             mailer.sendMail(data[0].email, url);
             response.success = true;
             response.message = "Please Check Your mail for reset password";
+            response.status = 200;
             callback(null, response);
         } else {
             response.success = false;
@@ -179,7 +181,8 @@ userModel.prototype.resetPassword = (req, callback) => {
     var response = {
         success: false,
         message: '',
-        data: ''
+        data: '',
+        status: 500
     }
     hashGenerate(req.password, (err, data) => {
         if (err) {
@@ -192,6 +195,7 @@ userModel.prototype.resetPassword = (req, callback) => {
                     callback(response);
                 } else {
                     response.success = true;
+                    response.status = 200
                     response.message = 'Password updated successfully'
                     callback(null, response);
                 }

@@ -109,7 +109,7 @@ module.exports.filterByCategory = (req, res) => {
 
     const queryParam = req.params;
     let body = {
-        ...(queryParam.categoryName) && { categoryName: queryParam.categoryName },
+        ...(queryParam.categoryId) && { categoryId: queryParam.categoryId },
         ...(queryParam.productName) && { productName: queryParam.productName }
     }
     productService.filterByCategory(body).then(data => {
